@@ -3,44 +3,91 @@
 	<meta name="description" content="Login/Register" />
 </svelte:head>
 
+{#if !loggedIn}
 <section>
     <input type="text" placeholder="Username" bind:value={username} required>
     <input type="password" placeholder="Password" bind:value={password} required>
     <button id="Login" on:click={onLogin}>Login</button>
     <button id="Signup" on:click={onSignup}>Sign up</button>
 </section>
+{/if}
+
+{#if loggedIn}
+<section>
+    <h1>Logged in</h1>
+    <button on:click={onDelete}>Delete Account</button>
+</section>
+{/if}
 
 <script>
     import fetchJson from "../../lib/util/FetchJson.js"
+    import { onMount } from "svelte"
 
     let username;
     let password;
+
+    let loggedIn;
+
+    onMount(() => {
+        loggedIn = localStorage.getItem("token") != ""
+    })
+
     function onLogin() {
         if (!username || !password) {
             alert("Please fill out all the fields!");
             return;
         }
-        alert("Clicked login btn")
+        fetchJson("/user/login", {
+            method: "POST",
+            body: JSON.stringify(
+                {
+                    name: username,
+                    password: password
+                }
+            )
+        })
+        .then((response) => {
+            localStorage.setItem("token", response.token);  
+            console.log (response.token);
+            console.log(JSON.stringify(response));
+
+            if (response.error){
+                alert(response.error);
+                return;
+            }
+
+            window.location.href = "";
+        })
       }
       function onSignup() {
         if (!username || !password) {
             alert("Please fill out all the fields!");
             return;
         }
-        fetchJson("http://localhost:8000/user/register", {
+        fetchJson("/user/register", {
             method: "POST",
             body: JSON.stringify(
                 {
                     name: username,
-                    password: password,
-                    bio: ""
+                    password: password
                 }
             )
         })
-        .then((json) => {
-            alert(JSON.stringify(json));
-            
+        .then((response) => {
+            localStorage.setItem("token", response.token);
+            window.location.href = "/";
         })
+      }
+      function onDelete(){
+        fetchJson("/user/delete", {
+            method: "DELETE",
+            headers: {
+                "xxx-access-token": localStorage.getItem("token"),
+            }
+        })
+        .then((response)=> {
+            console.log(JSON.stringify(response));
+        });
       }
 </script>
 
