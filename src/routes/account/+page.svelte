@@ -4,26 +4,49 @@
 </svelte:head>
 
 <section>
-    <form action="">
-        <input type="text" placeholder="Username" name="username" required>
-        <input type="password" placeholder="Password" name="password" required>
-        <button id="Login" type="submit" on:submit={onLogin}>Login</button>
-        <button id="Signup" type="submit" on:submit={onSignup}>Sign up</button>
-    </form>
+    <input type="text" placeholder="Username" bind:value={username} required>
+    <input type="password" placeholder="Password" bind:value={password} required>
+    <button id="Login" on:click={onLogin}>Login</button>
+    <button id="Signup" on:click={onSignup}>Sign up</button>
 </section>
 
 <script>
+    import fetchJson from "../../lib/util/FetchJson.js"
+
+    let username;
+    let password;
     function onLogin() {
+        if (!username || !password) {
+            alert("Please fill out all the fields!");
+            return;
+        }
         alert("Clicked login btn")
       }
-      function onSignup(){
-
+      function onSignup() {
+        if (!username || !password) {
+            alert("Please fill out all the fields!");
+            return;
+        }
+        fetchJson("http://localhost:8000/user/register", {
+            method: "POST",
+            body: JSON.stringify(
+                {
+                    name: username,
+                    password: password,
+                    bio: ""
+                }
+            )
+        })
+        .then((json) => {
+            alert(JSON.stringify(json));
+            
+        })
       }
 </script>
 
 <style>
-    form {
-        min-height: 90vh;
+    section {
+        min-height: 80vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -45,7 +68,6 @@
         transform: translate(-0rem, 0rem);
         padding: 0.5rem;
         margin-top: 1rem;
-        margin-bottom: 3rem;
         border-radius: 0.5rem;
     }
 
@@ -53,9 +75,5 @@
         cursor: pointer;
         filter: sepia(0.7);
         transition: all 0.3s ease-in-out;
-    }
-
-    #Signup {
-        color: blue;
     }
 </style>
