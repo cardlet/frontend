@@ -15,6 +15,7 @@
 {#if loggedIn}
 <section>
     <h1>Logged in</h1>
+    <button on:click={onLogout}>Log out</button>
     <button on:click={onDelete}>Delete Account</button>
 </section>
 {/if}
@@ -29,7 +30,7 @@
     let loggedIn;
 
     onMount(() => {
-        loggedIn = localStorage.getItem("token") != ""
+        loggedIn = localStorage.getItem("token") ? true : false;
     })
 
     function onLogin() {
@@ -78,15 +79,22 @@
             window.location.href = "/";
         })
       }
+      function onLogout() {
+        localStorage.removeItem("token");
+        window.location.reload();
+      }
       function onDelete(){
         fetchJson("/user/delete", {
             method: "DELETE",
             headers: {
-                "xxx-access-token": localStorage.getItem("token"),
+                "Authorization": localStorage.getItem("token"),
             }
         })
         .then((response)=> {
-            console.log(JSON.stringify(response));
+            if (!response.error) {
+                localStorage.removeItem("token");
+                window.location.reload();
+            }
         });
       }
 </script>
