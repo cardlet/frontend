@@ -1,5 +1,14 @@
 <script>
 	import welcome from '$lib/images/cardlet.png';
+	import book from '$lib/images/book.svg';
+	import { onMount } from "svelte"
+
+	let loggedIn;
+
+	onMount(() => {
+		loggedIn = localStorage.getItem("token") ? true : false;
+	})
+
 </script>
 
 <svelte:head>
@@ -8,9 +17,15 @@
 </svelte:head>
 
 <section>
+	{#if loggedIn}
+		<a href="/desks" id="corner">
+			<img id="image" src={book} alt="">
+			<span>New Desk</span>
+		</a>
+	{/if}
 	<h1>
 		<span class="welcome">
-			<img srcset={welcome} alt="" />
+			<img src={welcome} alt="" />
 		</span>
 
 		Cardlet
@@ -23,6 +38,7 @@
 
 <style>
 	section {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -48,5 +64,30 @@
 		height: 100%;
 		top: 0;
 		display: block;
+	}
+
+	a {
+		position: absolute;
+		right: 0;
+		top: 0;
+		display: flex;
+		align-items: center;
+		background-color: var(--color-bg-2);
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+	}
+
+	a:hover {
+		text-decoration: none;
+		filter: opacity(0.8);
+	}
+	
+	a img {
+		width: 20%;
+	}
+
+	a span {
+		font-size: 1rem;
+		margin-left: 0.5rem;		
 	}
 </style>
