@@ -4,40 +4,84 @@
 </svelte:head>
 
 <section>
+	<div id="create-container">
+		<input type="text" id="deskname" placeholder="Name of your new desk" bind:value={deskName}>
+		<button name="" id="create" on:click={onCreateDesk}>Create</button>
 
-	<input type="text" id="deskname" placeholder="Name of your new desk">
-	<button name="" id="save">Save</button>
+	</div>
+
+	<div id="desks">
+		{#each desks as desk}
+			<span>
+				<a href="/desks/{desk.ID}">{desk.name}</a>
+				<span>Cards: </span>
+				<img src={book} alt="">
+			</span>
+		{/each}
+	</div>
 
 </section>
 
+<script>
+	import fetchJson from '../../lib/util/FetchJson.js'
+	import book from '$lib/images/book.svg';
+
+	let desks = [
+		{
+		name: "Test",
+		cardCount: 2,
+	},{
+		name: "Hallo",
+		cardCount: 3,
+	}];
+
+	let deskName; 
+	
+	function onCreateDesk() {
+		if (!deskName) {
+			alert("Desk name can't be empty!"); 
+			return;
+		}
+		fetchJson("/desks/create", {
+			method: 'POST',
+			headers: {
+				"Authorization": localStorage.getItem("token"),
+			},
+			body: JSON.stringify(
+				{
+					name: deskName,
+				}
+			)
+		}).then((json) => {
+			alert(JSON.stringify(json));
+		})
+	}
+</script>
 
 <style>
+	#create-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 3rem;
+	}
+
 	#deskname {
-		position: absolute;
-		align-items: center;
-		width: 14%;
-		left: 2%;
-		top: 10%;
-		display: flex;
 		padding: 0.5rem 1rem;
 		border-radius: 0.5rem;
 		background-color: var(--color-bg-2);
 	}
 
-	#save {
-		position: absolute;
-		right: 2%;
-		top: 10%;
-		display: flex;
-		align-items: center;
+	#create {
 		background-color: var(--color-bg-2);
 		padding: 0.5rem 1rem;
 		border-radius: 0.5rem;
 	}
 
-	#save:hover {
+	#create:hover {
 		text-decoration: none;
-		filter: drop-shadow(2);
+		filter: drop-shadow(0 0 2rem var(--color-theme-2));
+		cursor: pointer;
 	}
 
 </style>
