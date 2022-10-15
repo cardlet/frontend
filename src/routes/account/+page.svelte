@@ -48,7 +48,7 @@
             )
         })
         .then((response) => {
-            localStorage.setItem("token", response.token);  
+            localStorage.setItem("token", response.token);
             console.log (response.token);
             console.log(JSON.stringify(response));
 

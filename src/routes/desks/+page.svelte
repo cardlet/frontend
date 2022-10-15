@@ -13,9 +13,12 @@
 	<div id="desks">
 		{#each desks as desk}
 			<span>
-				<a href="/desks/{desk.ID}">{desk.name}</a>
-				<span>Cards: </span>
-				<img src={book} alt="">
+				<div>
+					<img src={book} alt="">
+					<a href="/desks/{desk.ID}">{desk.name}</a>
+					<span>Cards: {desk.cardCount}</span>
+				</div>
+				<button on:click={deleteDesk(desk)}>Delete</button>
 			</span>
 		{/each}
 	</div>
@@ -25,15 +28,9 @@
 <script>
 	import fetchJson from '../../lib/util/FetchJson.js'
 	import book from '$lib/images/book.svg';
-
-	let desks = [
-		{
-		name: "Test",
-		cardCount: 2,
-	},{
-		name: "Hallo",
-		cardCount: 3,
-	}];
+	import { onMount } from 'svelte';
+	
+	let desks = [];
 
 	let deskName; 
 	
@@ -53,9 +50,40 @@
 				}
 			)
 		}).then((json) => {
-			alert(JSON.stringify(json));
+			desks.push(json);
+			desks = desks;
+			deskName = "";
 		})
 	}
+
+	async function getDesks() {
+		fetchJson("/desks", {})
+		.then((json) => {
+			desks = json;
+		})
+	}
+
+	function deleteDesk(desk) {
+		const id = desk.ID;
+		fetchJson(`/desks/delete/${id}`, {
+			method: 'DELETE',
+			headers: {
+				"Authorization": localStorage.getItem("token"),
+			},
+		}).then((json) => {
+			if (json.ok) {
+				let index = desks.indexOf(desk);
+				desks.splice(index, 1);
+				desks = desks;
+			}
+		})
+
+	}
+
+	onMount(() => {
+		getDesks();
+	})
+	
 </script>
 
 <style>
@@ -80,8 +108,29 @@
 
 	#create:hover {
 		text-decoration: none;
-		filter: drop-shadow(0 0 2rem var(--color-theme-2));
 		cursor: pointer;
 	}
 
+	#desks {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+	
+	#desks>span {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 0.3rem 0;
+	}
+
+	#desks>span>div {
+		display: flex;
+		align-items: center;
+	}
+
+	#desks>span>div>* {
+		margin-right: 1.5rem;
+	}
 </style>
