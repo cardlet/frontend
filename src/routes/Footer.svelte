@@ -1,23 +1,37 @@
 <footer>
-    <p>Copyright © 2022 </p>
+	<div></div>
+    <p>Copyright © {year}</p>
+	<div id="social-links">
+		<a href="https://github.com/cardlet">
+			<img src={github} alt="GitHub" />
+		</a>
+	</div>
 </footer>
+
+<script>
+	import github from '$lib/images/github.svg';
+
+	let year = new Date().getFullYear();
+</script>
 
 <style>
     footer {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
-		padding: 12px;
+		padding: 0.5rem 2rem;
 	}
 
 	footer p {
 		font-weight: bold;
 	}
 
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
+	#social-links a img {
+		height: 1.8rem;
+		width: auto;
+	}
+
+	#social-links a:hover {
+		filter: drop-shadow(0 0 0.7rem var(--color-theme-1));
 	}
 </style>
