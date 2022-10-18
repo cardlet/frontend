@@ -11,6 +11,12 @@
 	</div>
 
 	<nav>
+		<input type="checkbox" name="nav-toggle" id="nav-toggle">
+		<label id="hamburger" for="nav-toggle">
+			<span></span>
+			<span></span>
+			<span></span>
+		</label>
 		<ul>
 			<li class:active={$page.url.pathname === '/'}>
 				<a href="/">Home</a>
@@ -23,16 +29,15 @@
 			</li>
 		</ul>
 	</nav>
-
-	<div class="corner">
-		
-	</div>
 </header>
 
 <style>
 	header {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+		padding: 1.5rem 2vw;
+		position: relative;
 	}
 
 	.corner {
@@ -57,54 +62,33 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(1, 2, 48, 0.7)	}
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
 	}
 
-	path {
-		fill: var(--background);
-	}
-
-	ul {
-		position: relative;
-		padding: 0;
-		margin: 0;
-		height: 3em;
-		display: flex;
+	nav ul {
+		position: absolute;
+		top: 5rem;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		display: none;
+		opacity: 0;
+		margin: 0 1rem;
+		padding: 1rem 2rem;
+		width: calc(100% - 2rem);
+		left: 0;
 		list-style: none;
-		background: var(--background);
-		background-size: contain;
+		transition: all ease-in-out 0.3s;
+		border-radius: 1rem;
+		background-color: var(--color-bg-2);
 	}
 
-	li {
-		position: relative;
+	nav li {
 		height: 100%;
-	}
-
-	li.active::before {
-		--size:10px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
 	}
 
 	nav a {
-		display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 0.5rem;
-		color: var(--color-bg-0);
+		padding: 0.5rem;
+		color: var(--color-theme-2);
 		font-weight: 700;
 		font-size: 1rem;
 		text-transform: uppercase;
@@ -115,5 +99,36 @@
 
 	a:hover {
 		color: var(--color-theme-1);
+	}
+
+	#nav-toggle {
+		display: none;
+	}
+
+	#hamburger {
+		width: 2rem;
+		height: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		cursor: pointer;
+	}
+
+	#hamburger span {
+		width: 100%;
+		height: 15%;
+		background-color: var(--color-text);
+	}
+
+	#nav-toggle:checked ~ ul {
+		display: flex;
+		opacity: 1;
+	}
+
+	@media (min-width: 720px) {
+		nav ul {
+			display: flex;
+			flex-direction: row;
+		}
 	}
 </style>
