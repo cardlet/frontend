@@ -67,11 +67,10 @@
 	nav ul {
 		position: absolute;
 		top: 5rem;
+		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		display: none;
-		opacity: 0;
 		margin: 0 1rem;
 		padding: 1rem 2rem;
 		width: calc(100% - 2rem);
@@ -80,14 +79,16 @@
 		transition: all ease-in-out 0.3s;
 		border-radius: 1rem;
 		background-color: var(--color-bg-2);
+		z-index: 100;
+		opacity: 0;
+		visibility: hidden;
 	}
 
 	nav li {
-		height: 100%;
+		padding: 0.2rem 0.5rem;
 	}
 
 	nav a {
-		padding: 0.5rem;
 		color: var(--color-theme-2);
 		font-weight: 700;
 		font-size: 1rem;
@@ -118,17 +119,47 @@
 		width: 100%;
 		height: 15%;
 		background-color: var(--color-text);
+		transition: all 0.3s ease-in-out;
 	}
 
 	#nav-toggle:checked ~ ul {
-		display: flex;
 		opacity: 1;
+		visibility: visible;
+	}
+
+	#nav-toggle:checked ~ #hamburger span {
+		width: 95%;
+	}
+
+	#nav-toggle:checked ~ #hamburger span:nth-child(1) {
+		transform: rotate(45deg);
+		transform-origin: top left;
+	}
+
+	#nav-toggle:checked ~ #hamburger span:nth-child(2) {
+		transform-origin: center;
+		width: 0;
+	}
+
+	#nav-toggle:checked ~ #hamburger span:nth-child(3) {
+		transform: rotate(-45deg);
+		transform-origin: bottom left;
 	}
 
 	@media (min-width: 720px) {
 		nav ul {
 			display: flex;
 			flex-direction: row;
+			opacity: 1;
+			width: min-content;
+			position: initial;
+			background-color: transparent;
+			padding: 0;
+			visibility: visible;
+		}
+
+		#hamburger {
+			display: none;
 		}
 	}
 </style>
