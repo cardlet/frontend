@@ -1,5 +1,4 @@
 <script>
-	import welcome from '$lib/images/cardlet.png';
 	import book from '$lib/images/book.svg';
 	import { onMount } from "svelte"
 
@@ -23,17 +22,9 @@
 			<span>New Desk</span>
 		</a>
 	{/if}
-	<h1>
-		<span class="welcome">
-			<img src={welcome} alt="" />
-		</span>
-
-		Cardlet
-	</h1>
-
-	<h2>
-		<strong>learn2learn</strong>
-	</h2>
+	<h1><strong><i>Cardlet</i></strong> is a cross-platform desktop flashcard app.</h1>
+	<p>The process is automatically synced with the servers, therefore you can access your flash cards from any device you want to. No personal data is tracked or stored and therefore is privacy friendly in comparison to non-libre alternatives.</p>
+	<a id="sign-up" href="/account">Sign up now</a>
 </section>
 
 <style>
@@ -47,26 +38,15 @@
 	}
 
 	h1 {
-		width: 100%;
+		width: 90%;
 	}
 
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
+	p {
+		width: 90%;
+		text-align: center;
 	}
 
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-
-	a {
+	#corner {
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -77,7 +57,7 @@
 		border-radius: 0.5rem;
 	}
 
-	a:hover {
+	#corner:hover {
 		text-decoration: none;
 		filter: opacity(0.8);
 	}
