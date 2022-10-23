@@ -15,9 +15,10 @@
 			<span>
 				<div>
 					<img src={book} alt="">
-					<a href="/desks/{desk.ID}">{desk.name}</a>
+					<a href="/cards?deskId={desk.ID}">{desk.name}</a>
 					<span>Cards: {desk.cardCount}</span>
 				</div>
+				<button  id="start" on:click={start(desk)} >Start</button>
 				<button on:click={deleteDesk(desk)}>Delete</button>
 			</span>
 		{/each}
@@ -84,6 +85,9 @@
 		getDesks();
 	})
 	
+	const start = (desk) =>  {
+		window.location.href = "/train" + "?deskId=" + desk.ID;
+	}
 </script>
 
 <style>
@@ -92,23 +96,6 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-top: 3rem;
-	}
-
-	#deskname {
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
-		background-color: var(--color-bg-2);
-	}
-
-	#create {
-		background-color: var(--color-bg-2);
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
-	}
-
-	#create:hover {
-		text-decoration: none;
-		cursor: pointer;
 	}
 
 	#desks {
@@ -132,5 +119,10 @@
 
 	#desks>span>div>* {
 		margin-right: 1.5rem;
+	}
+
+	#start {
+		margin-left: auto;
+		margin-right: 0.7rem;
 	}
 </style>

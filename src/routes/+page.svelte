@@ -24,7 +24,9 @@
 	{/if}
 	<h1><strong><i>Cardlet</i></strong> is a cross-platform desktop flashcard app.</h1>
 	<p>The process is automatically synced with the servers, therefore you can access your flash cards from any device you want to. No personal data is tracked or stored and therefore is privacy friendly in comparison to non-libre alternatives.</p>
+	{#if !loggedIn}
 	<a id="sign-up" href="/account">Sign up now</a>
+	{/if}
 </section>
 
 <style>
