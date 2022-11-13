@@ -1,12 +1,11 @@
 <script>
 	import { page } from '$app/stores';
-	import logo from '$lib/images/cardlet.svg';
 </script>
 
 <header>
 	<div class="corner">
 		<a href="/">
-			<img src={logo} alt="SvelteKit" />
+			<img src="/favicon.svg" alt="SvelteKit" />
 		</a>
 	</div>
 
